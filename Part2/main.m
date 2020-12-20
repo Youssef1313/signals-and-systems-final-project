@@ -26,14 +26,14 @@ for i = 1 : length(breakpoints) - 1
     t = generate_samples(region_min, region_max, sampling_freq);
     switch signal_type
         case SignalType.DC
-            amplitude = get_number('Enter amplitude for DC signal: ', is_positive);
+            amplitude = input('Enter amplitude for DC signal: ');
             y = SignalType.generate(t, SignalType.get_dc_predicate(amplitude));
             plot(t, y);
             hold on;
         case SignalType.RAMP
             slope = input('Enter slope for ramp signal: ');
             intercept = input('Enter intercept for ramp signal: ');
-            y = SignalType.generate(t, SignalType.get_ramp_predicate(slope, intercept))
+            y = SignalType.generate(t, SignalType.get_ramp_predicate(slope, intercept));
             plot(t, y);
             hold on;
         case SignalType.POLYNOMIAL
