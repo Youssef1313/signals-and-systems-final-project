@@ -1,0 +1,28 @@
+ classdef SignalType
+    properties(Constant = true)
+         DC = 1
+         RAMP = 2
+         POLYNOMIAL = 3
+         EXPONENTIAL = 4
+         SINUSOIDAL = 5
+    end
+    
+    methods(Static)
+        function f = is_valid_signal_type(signal_type)
+            f = signal_type == SignalType.DC ||...
+                signal_type == SignalType.RAMP ||...
+                signal_type == SignalType.POLYNOMIAL ||...
+                signal_type == SignalType.EXPONENTIAL ||...
+                signal_type == SignalType.SINUSOIDAL;
+        end
+
+        function f = generate(signal_type, t)
+            f = arrayfun(@(x) generate_internal(signal_type, x), t);
+        end
+        
+        function f = generate_internal(signal_type, t)
+            switch signal_type
+                case SignalType.DC
+        end
+    end
+ end
