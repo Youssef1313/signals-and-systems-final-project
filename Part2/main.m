@@ -1,12 +1,8 @@
-% Anonymous functions.
-is_positive = @(x) x > 0;
-is_non_negative = @(x) x >= 0;
-
-sampling_freq = get_number('Enter sampling frequency (must be a positive number): ', is_positive);
+sampling_freq = get_number('Enter sampling frequency (must be a positive number): ', @(x) x > 0);
 t_min = input('Enter the start of time scale: ');
 t_max = get_number('Enter the end of time scale: ', @(x) x > t_min);
 
-breakpoints_count = get_number('Enter the number of breakpoints (must be a non-negative number): ', is_non_negative);
+breakpoints_count = get_number('Enter the number of breakpoints (must be a non-negative number): ', @(x) x >= 0);
 
 breakpoints = zeros(1, breakpoints_count);
 for i = 1 : breakpoints_count
@@ -27,7 +23,7 @@ for i = 1 : length(breakpoints) - 1
     % TODO: Or, listbox (listdlg)
     % TODO: Remove hard-coded numbers (and names if possible) from the
     % following string.
-    signal_type = get_number([for_region_string ', enter a number corresponding to the signal type:\n1: DC\n2: RAMP\n3: POLYNOMIAL\n4: EXPONENTIAL\n5: SINUSOIDAL\n'], @(x) SignalType.is_valid_signal_type(x));
+    signal_type = get_number([for_region_string ', enter a number corresponding to the signal type:\n' SignalType.get_types_message()], @(x) SignalType.is_valid_signal_type(x));
     current_t = generate_samples(region_min, region_max, sampling_freq);
     t = [t current_t];
     switch signal_type

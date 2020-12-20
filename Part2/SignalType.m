@@ -8,6 +8,14 @@
     end
     
     methods(Static)
+        function f = get_types_message()
+            f = [num2str(SignalType.DC) ': DC\n'...
+                 num2str(SignalType.RAMP) ': Ramp\n'...
+                 num2str(SignalType.POLYNOMIAL) ': General order polynomial\n'...
+                 num2str(SignalType.EXPONENTIAL) ': Exponential\n'...
+                 num2str(SignalType.SINUSOIDAL) ': Sinusoidal\n'];
+        end
+
         function f = is_valid_signal_type(signal_type)
             f = signal_type == SignalType.DC ||...
                 signal_type == SignalType.RAMP ||...
@@ -33,7 +41,7 @@
         end
 
         function f = get_exponential_predicate(amplitude, exponent)
-            throw(MException('Not implemented yet.'));
+            f = @(x) amplitude * exp(x * exponent);
         end
 
         function f = get_sinusoidal_predicate(amplitude, frequency, phase)
