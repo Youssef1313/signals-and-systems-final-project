@@ -9,8 +9,7 @@ for i = 1 : breakpoints_count
     breakpoints(i) = get_number(['Enter the position of breakpoint ' num2str(i)  ': '],  @(x) x > t_min && x < t_max);
 end
 
-% TODO: Sort breakpoints vs. allowing only increasing order.
-breakpoints = [t_min breakpoints t_max];
+breakpoints = [t_min sort(breakpoints) t_max];
 
 t = []; % Fix high memory allocation and speed.
 y = []; % Fix high memory allocation and speed.
@@ -21,8 +20,6 @@ for i = 1 : length(breakpoints) - 1
     for_region_string = ['For region ' num2str(region_min) ' to ' num2str(region_max)];
     % TODO: Drop-down list https://www.mathworks.com/help/matlab/ref/uidropdown.html
     % TODO: Or, listbox (listdlg)
-    % TODO: Remove hard-coded numbers (and names if possible) from the
-    % following string.
     signal_type = get_number([for_region_string ', enter a number corresponding to the signal type:\n' SignalType.get_types_message()], @(x) SignalType.is_valid_signal_type(x));
     current_t = generate_samples(region_min, region_max, sampling_freq);
     t = [t current_t];
