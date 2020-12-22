@@ -35,10 +35,9 @@ for i = 1 : length(breakpoints) - 1
             intercept = input('Enter intercept for ramp signal: ');
             y = [y SignalType.generate(current_t, SignalType.get_ramp_predicate(slope, intercept))];
         case SignalType.POLYNOMIAL
-            amplitude = input('Enter amplitude for polynomial signal: ');
-            power = input('Enter power for polynomial signal: ');
-            intercept = input('Enter intercept for polynomial signal: ');
-            y = [y SignalType.generate(current_t, SignalType.get_polynomial_predicate(amplitude, power, intercept))];
+            max_power = get_number('Enter the order (max power) of the polynomial: ', @(x) x > 0);
+            coefficients = get_polynomial_coefficients(max_power);
+            y = [y SignalType.generate(current_t, SignalType.get_polynomial_predicate(coefficients))];
         case SignalType.EXPONENTIAL
             amplitude = input('Enter amplitude for exponential signal: ');
             exponent = input('Enter exponent for exponential signal: ');
