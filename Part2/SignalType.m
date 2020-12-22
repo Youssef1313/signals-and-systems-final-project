@@ -36,8 +36,8 @@
             f = @(x) slope * x + intercept;
         end
 
-        function f = get_polynomial_predicate(amplitude, power, intercept)
-            f = @(x) amplitude * x ^ power + intercept;
+        function f = get_polynomial_predicate(coefficients)
+            f = @(x) polyval(coefficients, x);
         end
 
         function f = get_exponential_predicate(amplitude, exponent)
