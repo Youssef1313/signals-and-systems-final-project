@@ -48,3 +48,22 @@ for i = 1 : length(breakpoints) - 1
 end
 
 plot(t, y);
+
+signal_operation = get_number(['Enter a number corresponding to the signal operation you want:\n' SignalOperation.get_operations_message()], @(x) SignalOperation.is_valid_signal_operation(x));
+switch signal_operation
+    case SignalOperation.TIME_SCALING
+        scaling_factor = input('Enter scaling factor: ');
+        t = t * scaling_factor;
+        figure;
+        plot(t, y);
+    case SignalOperation.AMPLITUDE_SCALING
+        scaling_factor = input('Enter scaling factor: ');
+        y = y * scaling_factor;
+        figure;
+        plot(t, y);
+    case SignalOperation.TIME_SHIFTING
+        shifting_value = input('Enter shifting value (positive shifts to left, negative to right): ');
+        t = t - shifting_value;
+        figure;
+        plot(t, y);
+end

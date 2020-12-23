@@ -1,12 +1,12 @@
  classdef SignalType
     properties(Constant = true)
-         DC = 1
-         RAMP = 2
-         POLYNOMIAL = 3
-         EXPONENTIAL = 4
-         SINUSOIDAL = 5
+        DC = 1
+        RAMP = 2
+        POLYNOMIAL = 3
+        EXPONENTIAL = 4
+        SINUSOIDAL = 5
     end
-    
+
     methods(Static)
         function f = get_types_message()
             f = [num2str(SignalType.DC) ': DC\n'...
