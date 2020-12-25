@@ -1,14 +1,13 @@
 sampling_freq = get_number('Enter sampling frequency (must be a positive number): ', @(x) x > 0);
-t_min = input('Enter the start of time scale: ');
+t_min = get_number('Enter the start of time scale: ', @(x) true);
 t_max = get_number('Enter the end of time scale: ', @(x) x > t_min);
 
-breakpoints_count = get_number('Enter the number of breakpoints (must be a non-negative number): ', @(x) x >= 0);
+breakpoints_count = get_number('Enter the number of breakpoints (must be a non-negative integer): ', @(x) x >= 0 && mod(x, 1) == 0);
 
 breakpoints = zeros(1, breakpoints_count);
 for i = 1 : breakpoints_count
     breakpoints(i) = get_number(['Enter the position of breakpoint ' num2str(i)  ': '],  @(x) x > t_min && x < t_max);
 end
-
 breakpoints = [t_min sort(breakpoints) t_max];
 
 t = cell(1, length(breakpoints) - 1);
@@ -25,24 +24,24 @@ for i = 1 : length(breakpoints) - 1
     t(i)= {current_t};
     switch signal_type
         case SignalType.DC
-            amplitude = input('Enter amplitude for DC signal: ');
+            amplitude = get_number('Enter amplitude for DC signal: ', @(x) true);
             y(i) = {SignalType.generate(current_t, SignalType.get_dc_predicate(amplitude))};
         case SignalType.RAMP
-            slope = input('Enter slope for ramp signal: ');
-            intercept = input('Enter intercept for ramp signal: ');
+            slope = get_number('Enter slope for ramp signal: ', @(x) true);
+            intercept = get_number('Enter intercept for ramp signal: ', @(x) true);
             y(i) = {SignalType.generate(current_t, SignalType.get_ramp_predicate(slope, intercept))};
         case SignalType.POLYNOMIAL
             max_power = get_number('Enter the order (max power) of the polynomial: ', @(x) x > 0);
             coefficients = get_polynomial_coefficients(max_power);
             y(i) = {SignalType.generate(current_t, SignalType.get_polynomial_predicate(coefficients))};
         case SignalType.EXPONENTIAL
-            amplitude = input('Enter amplitude for exponential signal: ');
-            exponent = input('Enter exponent for exponential signal: ');
+            amplitude = get_number('Enter amplitude for exponential signal: ', @(x) true);
+            exponent = get_number('Enter exponent for exponential signal: ', @(x) true);
             y(i) = {SignalType.generate(current_t, SignalType.get_exponential_predicate(amplitude, exponent))};
         case SignalType.SINUSOIDAL
-            amplitude = input('Enter amplitude for sinusoidal signal: ');
-            frequency = input('Enter frequency for sinusoidal signal: ');
-            phase = input('Enter phase for sinusoidal signal: ');
+            amplitude = get_number('Enter amplitude for sinusoidal signal: ', @(x) true);
+            frequency = get_number('Enter frequency for sinusoidal signal: ', @(x) true);
+            phase = get_number('Enter phase for sinusoidal signal: ', @(x) true);
             y(i) = {SignalType.generate(current_t, SignalType.get_sinusoidal_predicate(amplitude, frequency, phase))};
     end
 end
@@ -52,13 +51,13 @@ plot(t{:}, y{:});
 signal_operation = get_number(['Enter a number corresponding to the signal operation you want:\n' SignalOperation.get_operations_message()], @(x) SignalOperation.is_valid_signal_operation(x));
 switch signal_operation
     case SignalOperation.TIME_SCALING
-        scaling_factor = input('Enter scaling factor: ');
+        scaling_factor = get_number('Enter scaling factor: ', @(x) true);
         t = t * scaling_factor;
     case SignalOperation.AMPLITUDE_SCALING
-        scaling_factor = input('Enter scaling factor: ');
+        scaling_factor = get_number('Enter scaling factor: ', @(x) true);
         y = y * scaling_factor;
     case SignalOperation.TIME_SHIFTING
-        shifting_value = input('Enter shifting value (positive shifts to left, negative to right): ');
+        shifting_value = get_number('Enter shifting value (positive shifts to left, negative to right): ', @(x) true);
         t = t - shifting_value;
 end
 
