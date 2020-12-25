@@ -11,8 +11,8 @@ end
 
 breakpoints = [t_min sort(breakpoints) t_max];
 
-t = []; % Fix high memory allocation and speed.
-y = []; % Fix high memory allocation and speed.
+t = cell(1, length(breakpoints) - 1);
+y = cell(1, length(breakpoints) - 1);
 
 for i = 1 : length(breakpoints) - 1
     region_min = breakpoints(i);
@@ -22,32 +22,32 @@ for i = 1 : length(breakpoints) - 1
     % TODO: Or, listbox (listdlg)
     signal_type = get_number([for_region_string ', enter a number corresponding to the signal type:\n' SignalType.get_types_message()], @(x) SignalType.is_valid_signal_type(x));
     current_t = generate_samples(region_min, region_max, sampling_freq);
-    t = [t current_t];
+    t(i)= {current_t};
     switch signal_type
         case SignalType.DC
             amplitude = input('Enter amplitude for DC signal: ');
-            y = [y SignalType.generate(current_t, SignalType.get_dc_predicate(amplitude))];
+            y(i) = {SignalType.generate(current_t, SignalType.get_dc_predicate(amplitude))};
         case SignalType.RAMP
             slope = input('Enter slope for ramp signal: ');
             intercept = input('Enter intercept for ramp signal: ');
-            y = [y SignalType.generate(current_t, SignalType.get_ramp_predicate(slope, intercept))];
+            y(i) = {SignalType.generate(current_t, SignalType.get_ramp_predicate(slope, intercept))};
         case SignalType.POLYNOMIAL
             max_power = get_number('Enter the order (max power) of the polynomial: ', @(x) x > 0);
             coefficients = get_polynomial_coefficients(max_power);
-            y = [y SignalType.generate(current_t, SignalType.get_polynomial_predicate(coefficients))];
+            y(i) = {SignalType.generate(current_t, SignalType.get_polynomial_predicate(coefficients))};
         case SignalType.EXPONENTIAL
             amplitude = input('Enter amplitude for exponential signal: ');
             exponent = input('Enter exponent for exponential signal: ');
-            y = [y SignalType.generate(current_t, SignalType.get_exponential_predicate(amplitude, exponent))];
+            y(i) = {SignalType.generate(current_t, SignalType.get_exponential_predicate(amplitude, exponent))};
         case SignalType.SINUSOIDAL
             amplitude = input('Enter amplitude for sinusoidal signal: ');
             frequency = input('Enter frequency for sinusoidal signal: ');
             phase = input('Enter phase for sinusoidal signal: ');
-            y = [y SignalType.generate(current_t, SignalType.get_sinusoidal_predicate(amplitude, frequency, phase))];
+            y(i) = {SignalType.generate(current_t, SignalType.get_sinusoidal_predicate(amplitude, frequency, phase))};
     end
 end
 
-plot(t, y);
+plot(t{:}, y{:});
 
 signal_operation = get_number(['Enter a number corresponding to the signal operation you want:\n' SignalOperation.get_operations_message()], @(x) SignalOperation.is_valid_signal_operation(x));
 switch signal_operation
