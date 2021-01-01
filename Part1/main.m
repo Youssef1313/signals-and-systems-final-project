@@ -1,6 +1,6 @@
 % Question 1
 
-sampling_freq = 100;
+sampling_freq = 1000;
 t = generate_samples(-5, 5, sampling_freq);
 y_func = @(t) exp(abs(t) / -5) .* (unit_step(t + 1) - unit_step(t - 3));
 
@@ -29,20 +29,21 @@ ylabel('y(4 - 2t)');
 
 
 % Question 2
-t_min = -500;
-t_max = 500;
+t_min = -2000;
+t_max = 2000;
 t = generate_samples(t_min, t_max, sampling_freq);
 m = sinc(0.001 * t) .* sinc(0.001 * t);
-T = fftshift(fft(t));
+M = fftshift(fft(m));
 F = linspace(-sampling_freq /2, sampling_freq /2, (t_max - t_min) * sampling_freq);
-magnitude = abs(T);
-phase = angle(T);
+magnitude = abs(M);
+phase = angle(M);
 figure('Name','Question 2 - a - F.T. of (sinc(10^-3 * t))^2','NumberTitle','off');
 subplot(3, 1, 1);
 plot(F, magnitude);
 title('Magnitude graph');
 subplot(3, 1, 2);
-plot(F(49980:50021), magnitude(49980:50021));
+middle_index = length(F) / 2;
+plot(F(middle_index-10:middle_index+10), magnitude(middle_index-10:middle_index+10));
 title('Magnitude graph - zoomed in');
 subplot(3, 1, 3);
 plot(F, phase);
