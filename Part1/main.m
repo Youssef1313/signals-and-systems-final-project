@@ -32,7 +32,7 @@ ylabel('y(4 - 2t)');
 t_min = -500;
 t_max = 500;
 t = generate_samples(t_min, t_max, sampling_freq);
-m = sinc(0.01 * t) .* sinc(0.01 * t);
+m = sinc(0.001 * t) .* sinc(0.001 * t);
 T = fftshift(fft(t));
 F = linspace(-sampling_freq /2, sampling_freq /2, (t_max - t_min) * sampling_freq);
 magnitude = abs(T);
