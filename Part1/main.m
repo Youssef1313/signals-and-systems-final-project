@@ -30,15 +30,13 @@ ylabel('y(4 - 2t)');
 
 
 % Question 2
-t_min = -2000;
-t_max = 2000;
-timeSamples = generate_samples(t_min, t_max, sampling_freq);
-m = sinc(0.001 * timeSamples) .* sinc(0.001 * timeSamples);
+timeSamples = generate_samples(-2000, 2000, sampling_freq);
+m = sinc(0.001 * timeSamples) .^ 2;
 M = fftshift(fft(m));
-F = linspace(-sampling_freq /2, sampling_freq /2, (t_max - t_min) * sampling_freq);
+F = linspace(-sampling_freq /2, sampling_freq /2, length(timeSamples));
 magnitude = abs(M);
 phase = angle(M);
-figure('Name','Question 2 - a - F.T. of (sinc(10^-3 * t))^2','NumberTitle','off');
+figure('Name', 'Question 2 - a - F.T. of (sinc(10^-3 * t))^2', 'NumberTitle', 'off');
 subplot(3, 1, 1);
 plot(F, magnitude);
 title('Magnitude graph');
