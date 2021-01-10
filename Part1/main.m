@@ -1,29 +1,30 @@
 % Question 1
 
 sampling_freq = 1000;
-t = generate_samples(-5, 5, sampling_freq);
-y_func = @(t) exp(abs(t) / -5) .* (unit_step(t + 1) - unit_step(t - 3));
+timeSamples = generate_samples(-5, 5, sampling_freq);
+syms t;
+y_func = exp(abs(t) / -5) * (heaviside(t + 1) - heaviside(t - 3));
 
-y = y_func(t);
-y1 = y_func(3 * t);
-y2 = y_func(t + 2);
-y3 = y_func(4 - 2 * t);
+y = subs(y_func, timeSamples); % y(t)
+y1 = subs(y_func, 3 * timeSamples); % y(3t)
+y2 = subs(y_func, timeSamples + 2); % y(t + 2)
+y3 = subs(y_func, 4 - 2 * timeSamples); % y(4 - 2t)
 
-figure('Name','Question 1','NumberTitle','off');
+figure('Name', 'Question 1', 'NumberTitle', 'off');
 subplot(2, 2, 1);
-plot(t, y);
+plot(timeSamples, y);
 xlabel('t');
 ylabel('y(t)');
 subplot(2, 2, 2);
-plot(t, y1);
+plot(timeSamples, y1);
 xlabel('t');
 ylabel('y(3t)');
 subplot(2, 2, 3);
-plot(t, y2);
+plot(timeSamples, y2);
 xlabel('t');
 ylabel('y(t + 2)');
 subplot(2, 2, 4);
-plot(t, y3);
+plot(timeSamples, y3);
 xlabel('t');
 ylabel('y(4 - 2t)');
 
@@ -31,8 +32,8 @@ ylabel('y(4 - 2t)');
 % Question 2
 t_min = -2000;
 t_max = 2000;
-t = generate_samples(t_min, t_max, sampling_freq);
-m = sinc(0.001 * t) .* sinc(0.001 * t);
+timeSamples = generate_samples(t_min, t_max, sampling_freq);
+m = sinc(0.001 * timeSamples) .* sinc(0.001 * timeSamples);
 M = fftshift(fft(m));
 F = linspace(-sampling_freq /2, sampling_freq /2, (t_max - t_min) * sampling_freq);
 magnitude = abs(M);
