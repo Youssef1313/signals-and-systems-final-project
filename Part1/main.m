@@ -32,7 +32,7 @@ ylabel('y(4 - 2t)');
 timeSamples = generate_samples(-1, 1, sampling_freq);
 m = sinc(0.001 * timeSamples) .^ 2;
 M = fftshift(fft(m));
-F = linspace(-sampling_freq /2, sampling_freq /2, length(timeSamples));
+F = linspace(-sampling_freq / 2, sampling_freq / 2, length(timeSamples));
 figure('Name', 'Question 2 - a - F.T. of (sinc(10^-3 * t))^2', 'NumberTitle', 'off');
 subplot(2, 1, 1);
 plot(F, abs(M));
