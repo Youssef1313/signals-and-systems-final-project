@@ -1,4 +1,13 @@
 %% MATLAB final project - part 2
+% <include>generate_samples.m</include>
+%%
+% <include>get_number.m</include>
+%%
+% <include>get_polynomial_coefficients.m</include>
+%%
+% <include>SignalOperation.m</include>
+%%
+% <include>SignalType.m</include>
 
 sampling_freq = get_number('Enter sampling frequency (must be a positive number): ', @(x) x > 0);
 t_min = get_number('Enter the start of time scale: ', @(x) true);
@@ -49,19 +58,21 @@ for i = 1 : length(breakpoints) - 1
 end
 
 plot(t{:}, y{:});
+datacursormode on;
 
 signal_operation = get_number(['Enter a number corresponding to the signal operation you want:\n' SignalOperation.get_operations_message()], @(x) SignalOperation.is_valid_signal_operation(x));
 switch signal_operation
     case SignalOperation.TIME_SCALING
         scaling_factor = get_number('Enter scaling factor: ', @(x) true);
-        t = t * scaling_factor;
+        t = {t{:} * scaling_factor};
     case SignalOperation.AMPLITUDE_SCALING
         scaling_factor = get_number('Enter scaling factor: ', @(x) true);
-        y = y * scaling_factor;
+        y = {y{:} * scaling_factor};
     case SignalOperation.TIME_SHIFTING
         shifting_value = get_number('Enter shifting value (positive shifts to left, negative to right): ', @(x) true);
-        t = t - shifting_value;
+        t = {t{:} - shifting_value};
 end
 
 hold on;
-plot(t, y);
+plot(t{:}, y{:});
+datacursormode on;

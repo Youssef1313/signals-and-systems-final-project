@@ -1,3 +1,6 @@
+%% get_polynomial_coefficients helper function
+% takes a max_power and keep asks the user for the coefficient of a
+% polynomial equation with the specified max_power
 function f = get_polynomial_coefficients(max_power)
     % For example, third order polynomial has 4 coefficients (a, b, c, d).
     % aX^3 + bX^2 + cX^1 + d
