@@ -1,3 +1,6 @@
+%% MATLAB final project - part 1
+% <include>generate_samples.m</include>
+
 %% Question 1
 sampling_freq = 200;
 timeSamples = generate_samples(-5, 5, sampling_freq);
