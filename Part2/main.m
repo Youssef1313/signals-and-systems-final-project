@@ -1,3 +1,5 @@
+%% MATLAB final project - part 2
+
 sampling_freq = get_number('Enter sampling frequency (must be a positive number): ', @(x) x > 0);
 t_min = get_number('Enter the start of time scale: ', @(x) true);
 t_max = get_number('Enter the end of time scale: ', @(x) x > t_min);
@@ -25,24 +27,24 @@ for i = 1 : length(breakpoints) - 1
     switch signal_type
         case SignalType.DC
             amplitude = get_number('Enter amplitude for DC signal: ', @(x) true);
-            y(i) = {SignalType.generate(current_t, SignalType.get_dc_predicate(amplitude))};
+            y(i) = {SignalType.generate(current_t, SignalType.get_dc_function(amplitude))};
         case SignalType.RAMP
             slope = get_number('Enter slope for ramp signal: ', @(x) true);
             intercept = get_number('Enter intercept for ramp signal: ', @(x) true);
-            y(i) = {SignalType.generate(current_t, SignalType.get_ramp_predicate(slope, intercept))};
+            y(i) = {SignalType.generate(current_t, SignalType.get_ramp_function(slope, intercept))};
         case SignalType.POLYNOMIAL
             max_power = get_number('Enter the order (max power) of the polynomial: ', @(x) x > 0);
             coefficients = get_polynomial_coefficients(max_power);
-            y(i) = {SignalType.generate(current_t, SignalType.get_polynomial_predicate(coefficients))};
+            y(i) = {SignalType.generate(current_t, SignalType.get_polynomial_function(coefficients))};
         case SignalType.EXPONENTIAL
             amplitude = get_number('Enter amplitude for exponential signal: ', @(x) true);
             exponent = get_number('Enter exponent for exponential signal: ', @(x) true);
-            y(i) = {SignalType.generate(current_t, SignalType.get_exponential_predicate(amplitude, exponent))};
+            y(i) = {SignalType.generate(current_t, SignalType.get_exponential_function(amplitude, exponent))};
         case SignalType.SINUSOIDAL
             amplitude = get_number('Enter amplitude for sinusoidal signal: ', @(x) true);
             frequency = get_number('Enter frequency for sinusoidal signal: ', @(x) true);
             phase = get_number('Enter phase for sinusoidal signal: ', @(x) true);
-            y(i) = {SignalType.generate(current_t, SignalType.get_sinusoidal_predicate(amplitude, frequency, phase))};
+            y(i) = {SignalType.generate(current_t, SignalType.get_sinusoidal_function(amplitude, frequency, phase))};
     end
 end
 

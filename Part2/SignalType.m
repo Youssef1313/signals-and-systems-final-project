@@ -28,23 +28,23 @@
             f = arrayfun(predicate, t);
         end
         
-        function f = get_dc_predicate(amplitude)
+        function f = get_dc_function(amplitude)
             f = @(x) amplitude;
         end
 
-        function f = get_ramp_predicate(slope, intercept)
+        function f = get_ramp_function(slope, intercept)
             f = @(x) slope * x + intercept;
         end
 
-        function f = get_polynomial_predicate(coefficients)
+        function f = get_polynomial_function(coefficients)
             f = @(x) polyval(coefficients, x);
         end
 
-        function f = get_exponential_predicate(amplitude, exponent)
+        function f = get_exponential_function(amplitude, exponent)
             f = @(x) amplitude * exp(x * exponent);
         end
 
-        function f = get_sinusoidal_predicate(amplitude, frequency, phase)
+        function f = get_sinusoidal_function(amplitude, frequency, phase)
             f = @(x) amplitude * sin(2 * pi * frequency * x + phase);
         end
     end
