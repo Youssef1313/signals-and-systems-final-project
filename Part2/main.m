@@ -1,4 +1,5 @@
 %% MATLAB final project - part 2
+%% Youssef Victor - 6668
 % <include>generate_samples.m</include>
 %%
 % <include>get_number.m</include>
@@ -57,22 +58,24 @@ for i = 1 : length(breakpoints) - 1
     end
 end
 
-plot(t{:}, y{:});
+tVector = [t{:}];
+yVector = [y{:}];
+plot(tVector, yVector);
 datacursormode on;
 
 signal_operation = get_number(['Enter a number corresponding to the signal operation you want:\n' SignalOperation.get_operations_message()], @(x) SignalOperation.is_valid_signal_operation(x));
 switch signal_operation
     case SignalOperation.TIME_SCALING
         scaling_factor = get_number('Enter scaling factor: ', @(x) true);
-        t = {t{:} * scaling_factor};
+        tVector = tVector * scaling_factor;
     case SignalOperation.AMPLITUDE_SCALING
         scaling_factor = get_number('Enter scaling factor: ', @(x) true);
-        y = {y{:} * scaling_factor};
+        yVector = yVector * scaling_factor;
     case SignalOperation.TIME_SHIFTING
         shifting_value = get_number('Enter shifting value (positive shifts to left, negative to right): ', @(x) true);
-        t = {t{:} - shifting_value};
+        tVector = tVector - shifting_value;
 end
 
 hold on;
-plot(t{:}, y{:});
+plot(tVector, yVector);
 datacursormode on;
